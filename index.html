@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Guesser</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #101820; color: white; font-family: Arial, sans-serif; }
+header { background: #172630; padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; }
+.logo { color: #55e6a5; font-size: 24px; font-weight: bold; }
+.container { max-width: 1050px; margin: 25px auto; padding: 15px; }
+.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.progress { background: #293943; height: 8px; border-radius: 20px; overflow: hidden; margin-bottom: 20px; }
+.progress-bar { background: #55e6a5; height: 100%; width: 0; transition: .3s; }
+.panel { background: #172630; border: 1px solid #293943; border-radius: 15px; padding: 16px; margin-bottom: 18px; }
+.panel-title { margin: 0 0 12px; font-size: 17px; }
+.scene { height: 360px; border-radius: 10px; background: #20333e; overflow: hidden; position: relative; }
+.map { width: 100%; height: 100%; border: 0; display: block; }
+#guessMap { height: 440px; border-radius: 10px; background: #aad3df; overflow: hidden; }
+#guessMap .leaflet-container { font: 13px Arial, sans-serif; }
+.hint { color: #bac8ce; font-size: 14px; margin: 10px 0 0; }
+.question { font-size: 21px; font-weight: bold; margin: 18px 0; }
+.result { text-align: center; margin-top: 16px; min-height: 25px; line-height: 1.5; }
+.main { background: #55e6a5; color: #10251e; border: none; padding: 14px 26px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 14px; }
+.main:disabled { opacity: .45; cursor: not-allowed; }
+ .center { text-align: center; }
+.hidden { display: none !important; }
+@media(max-width:600px) {
+    header { padding: 16px 5%; }
+    .logo { font-size: 19px; }
+    .container { margin: 14px auto; padding: 10px; }
+    .panel { padding: 12px; }
+    .scene, #guessMap { height: 280px; }
+}
+</style>
+</head>
+<body>
+<header>
+    <div class="logo">🌍 WORLD GUESSER</div>
+    <div>⭐ <span id="score">0</span> &nbsp; 🔥 <span id="streak">0</span></div>
+</header>
+<div class="container">
+    <div id="game">
+        <div class="top">
+            <span id="round">ROUND 1 / 5</span>
+        </div>
+        <div class="progress"><div class="progress-bar" id="progress"></div></div>
+
+        <section class="panel" id="streetPanel">
+            <h2 class="panel-title">👀 Lihat sekeliling di Street View 3D</h2>
+            <div class="scene">
+                <iframe id="streetView" class="map" title="Street View lokasi misteri" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <p class="hint">Lihat lokasi misteri di Street View, lalu tebak lokasinya pada peta dunia berlabel di bawah.</p>
+        </section>
+
+        <section class="panel" id="mapPanel">
+            <h2 class="panel-title">📍 Tebak lokasinya di peta dunia</h2>
+            <div id="guessMap" aria-label="Peta dunia interaktif"></div>
+            <p class="hint">Klik daerah tebakanmu di peta, lalu tekan KUNCI JAWABAN. Lokasi sebenarnya akan ditandai setelah kamu menjawab.</p>
+            <div class="center"><button class="main" id="submitGuess" disabled>KUNCI JAWABAN</button></div>
+        </section>
+
+        <div class="result" id="result"></div>
+        <div class="center"><button class="main hidden" id="next">LANJUT →</button></div>
+    </div>
+    <div id="finish" class="hidden center">
+        <h1>🏆 GAME SELESAI!</h1>
+        <h2>Skor Akhir</h2>
+        <h1 style="color:#55e6a5;font-size:55px" id="finalScore">0</h1>
+        <h2 id="rank"></h2>
+        <p id="summary"></p>
+        <button class="main" id="restart">MAIN LAGI ↻</button>
+    </div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
